@@ -1,4 +1,4 @@
-#Fault Tolerant Topology Control with Pattern Recognition
+##Fault Tolerant Topology Control with Pattern Recognition
 
 The goal of this work is to apply techniques of Pattern Recognition (PR) to
 solve problems of Fault Tolerance (FT) with applications in  Mobile Ad-Hoc

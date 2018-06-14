@@ -35,7 +35,14 @@ collect Bit Error Rate (BER) data for the Data-Link Layer experiment.
 
 ## Project Documents
 The directories of the various parts of this project are described below.
+## Underwater Experiment
+This directory contains the design specifications for the underwater experiment
+and components used therein.
 
-### CAD for the Underwater Data Collection Experiment
+#### CAD for the Underwater Data Collection Experiment
 The CAD directory contains all the drafts of designs that are required for the
 construction of this project, as well as a description of those designs.
+
+#### Electronic Design
+This folder contains all the specification sheets of used devices and final PCB
+design for the thermocline measuring device.

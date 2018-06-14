@@ -10,7 +10,7 @@ moment.
 ## Underwater Data Collection Experiment
 
 There is a need to test this algorithm for FT Topology Control (TC) and
-Topology Maintenance (TM) in the types of communicatio networks where high
+Topology Maintenance (TM) in the types of communication networks where high
 latency and low bandwidth are a common performance concern.
 
 In order to ensure some integrity in the work, an experiment in underwater data
@@ -29,3 +29,11 @@ datagrams.
 ### Data-Link Layer
 The datagrams mentioned in the previous section are those that are used to
 collect Bit Error Rate (BER) data for the Data-Link Layer experiment.
+
+
+## Project Documents
+The directories of the various parts of this project are described below.
+
+### CAD
+The CAD directory contains all the drafts of designs that are required for the
+construction of this project, as well as a description of those designs.

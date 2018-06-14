@@ -31,9 +31,11 @@ The datagrams mentioned in the previous section are those that are used to
 collect Bit Error Rate (BER) data for the Data-Link Layer experiment.
 
 
+
+
 ## Project Documents
 The directories of the various parts of this project are described below.
 
-### CAD
+### CAD for the Underwater Data Collection Experiment
 The CAD directory contains all the drafts of designs that are required for the
 construction of this project, as well as a description of those designs.

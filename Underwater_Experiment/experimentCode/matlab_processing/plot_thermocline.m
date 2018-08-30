@@ -1,4 +1,4 @@
-function [] = plot_thermocline(array, name, directory, title_name)
+function [x, y] = plot_thermocline(array, name, directory, title_name)
     full_path = [directory '/' name];
     
     % The 6th column gives depth relative to the bottom.
@@ -39,14 +39,17 @@ function [] = plot_thermocline(array, name, directory, title_name)
         last_row = row;
     end
     figure;
-    plot(C, 1:1:(count))
+    p = plot(C, 1:1:(count), 'b-')
+    p.LineWidth = 2;
+    p.Marker = '*';
     %Use this only for the event of errors.
     %plot(C(11:15), 1:1:5)
     title(title_name)
-    xlabel('Temperature (C)');
+    xlabel('Temperature ({\circ}C)');
     ylabel('Depth (m)');
     axis([min(C) max(C) 1 count])
     %Use this only for errors.
     %axis([min(C(11:15)) max(C(11:15)) 1 5])
-    
+    x = 1:1:(count);
+    y = C;
 end

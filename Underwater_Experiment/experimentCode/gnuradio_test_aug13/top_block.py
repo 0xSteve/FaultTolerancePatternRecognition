@@ -3,8 +3,10 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Fri Jan 18 11:11:07 2019
+# Generated: Wed May 29 18:13:09 2019
 ##################################################
+
+from distutils.version import StrictVersion
 
 if __name__ == '__main__':
     import ctypes
@@ -16,8 +18,8 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-from PyQt4 import Qt
-from gnuradio import analog
+from PyQt5 import Qt
+from PyQt5 import Qt, QtCore
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import fft
@@ -29,6 +31,7 @@ from gnuradio.filter import firdes
 from optparse import OptionParser
 import sip
 import sys
+from gnuradio import qtgui
 
 
 class top_block(gr.top_block, Qt.QWidget):
@@ -37,6 +40,7 @@ class top_block(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
+        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -54,45 +58,29 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_layout.addLayout(self.top_grid_layout)
 
         self.settings = Qt.QSettings("GNU Radio", "top_block")
-        self.restoreGeometry(self.settings.value("geometry").toByteArray())
+
+        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
+            self.restoreGeometry(self.settings.value("geometry").toByteArray())
+        else:
+            self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
 
         ##################################################
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 44100
-        self.trans_num = trans_num = str(1)
-        self.send_loc = send_loc = str(1)
+        self.trans_num = trans_num = str(10)
+        self.send_loc = send_loc = str(3)
         self.freq = freq = 1200
-        self.fft_size = fft_size = samp_rate/14
-        self.psd_stream = psd_stream = 1
-        self.path = path = "/home/steven/git/ft_pr/Underwater_Experiment/lake-trial-august13-2018/"
+        self.fft_size = fft_size = samp_rate/10
+        self.path = path = "/home/me/git/ft_pr/Underwater_Experiment/lake-trial-august13-2018/"
         self.file_name = file_name = "sendloc" + send_loc + "_trans" + trans_num + "_laketrial_aug13_2018"
         self.bin_number = bin_number = (freq*fft_size)/samp_rate
 
         ##################################################
         # Blocks
         ##################################################
-        self.qtgui_sink_x_0_0 = qtgui.sink_c(
-        	fft_size, #fftsize
-        	firdes.WIN_BLACKMAN_hARRIS, #wintype
-        	0, #fc
-        	samp_rate, #bw
-        	"", #name
-        	True, #plotfreq
-        	True, #plotwaterfall
-        	True, #plottime
-        	True, #plotconst
-        )
-        self.qtgui_sink_x_0_0.set_update_time(1.0/10)
-        self._qtgui_sink_x_0_0_win = sip.wrapinstance(self.qtgui_sink_x_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_sink_x_0_0_win)
-        
-        self.qtgui_sink_x_0_0.enable_rf_freq(True)
-        
-        
-          
         self.qtgui_sink_x_0 = qtgui.sink_c(
-        	fft_size/5, #fftsize
+        	fft_size, #fftsize
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
         	0, #fc
         	samp_rate, #bw
@@ -105,57 +93,43 @@ class top_block(gr.top_block, Qt.QWidget):
         self.qtgui_sink_x_0.set_update_time(1.0/10)
         self._qtgui_sink_x_0_win = sip.wrapinstance(self.qtgui_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_sink_x_0_win)
-        
+
         self.qtgui_sink_x_0.enable_rf_freq(True)
-        
-        
-          
-        self.fft_vxx_1 = fft.fft_vfc(fft_size, False, (window.blackmanharris(fft_size)), 1)
+
+
+
         self.fft_vxx_0 = fft.fft_vcc(fft_size, True, (window.blackmanharris(fft_size)), True, 1)
         self.blocks_wavfile_source_0 = blocks.wavfile_source(path + file_name + ".wav", False)
-        self.blocks_vector_to_stream_1 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, fft_size)
-        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_float*1, fft_size)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate,True)
-        self.blocks_stream_to_vector_1 = blocks.stream_to_vector(gr.sizeof_float*1, fft_size)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_size)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_divide_xx_0 = blocks.divide_ff(1)
-        self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(fft_size)
-        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, fft_size)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*fft_size, path + "raw_complex_dat/"  + file_name + "_raw_complex.dat", False)
+        self.blocks_file_sink_0.set_unbuffered(True)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_const_source_x_0, 0), (self.blocks_divide_xx_0, 1))    
-        self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.blocks_vector_to_stream_0, 0))    
-        self.connect((self.blocks_divide_xx_0, 0), (self.blocks_stream_to_vector_1, 0))    
-        self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_stream_to_vector_0, 0))    
-        self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_sink_x_0, 0))    
-        self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))    
-        self.connect((self.blocks_stream_to_vector_1, 0), (self.fft_vxx_1, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_float_to_complex_0, 0))    
-        self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_divide_xx_0, 0))    
-        self.connect((self.blocks_vector_to_stream_1, 0), (self.qtgui_sink_x_0_0, 0))    
-        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_throttle_0, 0))    
-        self.connect((self.fft_vxx_0, 0), (self.blocks_complex_to_mag_squared_0, 0))    
-        self.connect((self.fft_vxx_1, 0), (self.blocks_vector_to_stream_1, 0))    
+        self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_sink_x_0, 0))
+        self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_float_to_complex_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.fft_vxx_0, 0), (self.blocks_file_sink_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
-
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.set_bin_number((self.freq*self.fft_size)/self.samp_rate)
-        self.set_fft_size(self.samp_rate/14)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
+        self.set_fft_size(self.samp_rate/10)
         self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.qtgui_sink_x_0_0.set_frequency_range(0, self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
+        self.set_bin_number((self.freq*self.fft_size)/self.samp_rate)
 
     def get_trans_num(self):
         return self.trans_num
@@ -184,25 +158,20 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_fft_size(self, fft_size):
         self.fft_size = fft_size
         self.set_bin_number((self.freq*self.fft_size)/self.samp_rate)
-        self.analog_const_source_x_0.set_offset(self.fft_size)
-
-    def get_psd_stream(self):
-        return self.psd_stream
-
-    def set_psd_stream(self, psd_stream):
-        self.psd_stream = psd_stream
 
     def get_path(self):
         return self.path
 
     def set_path(self, path):
         self.path = path
+        self.blocks_file_sink_0.open(self.path + "raw_complex_dat/"  + self.file_name + "_raw_complex.dat")
 
     def get_file_name(self):
         return self.file_name
 
     def set_file_name(self, file_name):
         self.file_name = file_name
+        self.blocks_file_sink_0.open(self.path + "raw_complex_dat/"  + self.file_name + "_raw_complex.dat")
 
     def get_bin_number(self):
         return self.bin_number
@@ -213,8 +182,7 @@ class top_block(gr.top_block, Qt.QWidget):
 
 def main(top_block_cls=top_block, options=None):
 
-    from distutils.version import StrictVersion
-    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
+    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
@@ -226,7 +194,7 @@ def main(top_block_cls=top_block, options=None):
     def quitting():
         tb.stop()
         tb.wait()
-    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
+    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 

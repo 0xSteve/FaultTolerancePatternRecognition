@@ -1,3 +1,5 @@
+%This may, or may not be all that useful... Can just get the first and
+%second moment from the RMS power.
 close all; clear; clc;
 [a1, Fs] = audioread(["sendloc1_trans"+1+ "_laketrial_aug13_2018.wav"]);
 [a2, Fs] = audioread(["sendloc1_trans"+2+ "_laketrial_aug13_2018.wav"]);

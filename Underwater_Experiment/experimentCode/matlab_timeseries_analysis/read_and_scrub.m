@@ -15,8 +15,8 @@
 close all; clear; clc;
 
 %location number
-loc = 3;
-trans = 10;
+loc = 2;
+trans = 1;
 %bring in the data
 %test_signal_raw = csvread('test_signal_raw.csv');
 filename = ['sendloc' num2str(loc) '_trans' num2str(trans) '_laketrial_aug13_2018_raw_mag.csv'];
@@ -36,7 +36,7 @@ bin_of_interest = get_upper_bin(f, Fs, N);
 width_of_interest = bin_of_interest + 100;
 f_at_max = get_f_at_max(fft, Fs, N);
 drift =  frequency_drift(f_at_max, f);
-dc_bias = get_dc_bias(fft);
+% dc_bias = get_dc_bias(fft);
 max_vec = get_max_vec(fft);
 muh_title = ['Location ' num2str(loc) ' Transmission ' num2str(trans)];
 %plot_fft_samples(fr, fft, muh_title, 0.5)
@@ -48,12 +48,25 @@ max_phase = get_max_phase(X);
 min_phase = get_min_phase(X);
 
 %test out standardization functions.
-M = [drift dc_bias max_vec];
-Y = standardize_vector(M, 'minmaxing');
 
 [phases] = get_phases(X, 10000);
-mags = get_magnitudes(X);
+mags = get_upper_mags(X, N);
+dc_bias = get_dc_bias(mags);
+max_mags = get_max(mags);
+f_vec = get_f2(X,Fs,N);
 upper_phases = get_upper_phases(X, N, 10000);
+
+%frequency at max, max phase shift, dc bias, max. These are 4 useful
+%dimensions of analysis that will all be relatively short vectors of 26 or
+%so.
+%frequency at max = get_f2 -> done
+%max phase shift turns out to be useless. same with mininum. -> done
+%dc bias = get_dc_bias -> done
+%max
+%upper_phases, upper_magnitudes are two additional dimensions but much
+%longer.
+%get_upper_phases -> done
+%get_upper_mags -> done
 
 
 

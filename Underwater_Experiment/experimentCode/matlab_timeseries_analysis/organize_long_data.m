@@ -1,4 +1,5 @@
 %This script setups the normalized dataset for only the 4410 long vectors.
+%raw data.
 % frequency 1200Hz
 % fft_size 3675
 % number of samples 126000

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Wed May 29 18:13:09 2019
+# Generated: Tue Sep 24 22:10:25 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -22,11 +22,9 @@ from PyQt5 import Qt
 from PyQt5 import Qt, QtCore
 from gnuradio import blocks
 from gnuradio import eng_notation
-from gnuradio import fft
 from gnuradio import gr
 from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
-from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import sip
@@ -68,11 +66,14 @@ class top_block(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 44100
-        self.trans_num = trans_num = str(10)
-        self.send_loc = send_loc = str(3)
+        self.trans_num = trans_num = str(1)
+        self.send_loc = send_loc = str(1)
         self.freq = freq = 1200
         self.fft_size = fft_size = samp_rate/10
+        self.phase_diff_stream = phase_diff_stream = 3
+        self.phase_delay_stream = phase_delay_stream = 2
         self.path = path = "/home/me/git/ft_pr/Underwater_Experiment/lake-trial-august13-2018/"
+        self.magnitude_stream = magnitude_stream = 1
         self.file_name = file_name = "sendloc" + send_loc + "_trans" + trans_num + "_laketrial_aug13_2018"
         self.bin_number = bin_number = (freq*fft_size)/samp_rate
 
@@ -98,23 +99,16 @@ class top_block(gr.top_block, Qt.QWidget):
 
 
 
-        self.fft_vxx_0 = fft.fft_vcc(fft_size, True, (window.blackmanharris(fft_size)), True, 1)
-        self.blocks_wavfile_source_0 = blocks.wavfile_source(path + file_name + ".wav", False)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source(path + file_name + ".wav", True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate,True)
-        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_size)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*fft_size, path + "raw_complex_dat/"  + file_name + "_raw_complex.dat", False)
-        self.blocks_file_sink_0.set_unbuffered(True)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_stream_to_vector_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_sink_x_0, 0))
-        self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.fft_vxx_0, 0), (self.blocks_file_sink_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -159,19 +153,35 @@ class top_block(gr.top_block, Qt.QWidget):
         self.fft_size = fft_size
         self.set_bin_number((self.freq*self.fft_size)/self.samp_rate)
 
+    def get_phase_diff_stream(self):
+        return self.phase_diff_stream
+
+    def set_phase_diff_stream(self, phase_diff_stream):
+        self.phase_diff_stream = phase_diff_stream
+
+    def get_phase_delay_stream(self):
+        return self.phase_delay_stream
+
+    def set_phase_delay_stream(self, phase_delay_stream):
+        self.phase_delay_stream = phase_delay_stream
+
     def get_path(self):
         return self.path
 
     def set_path(self, path):
         self.path = path
-        self.blocks_file_sink_0.open(self.path + "raw_complex_dat/"  + self.file_name + "_raw_complex.dat")
+
+    def get_magnitude_stream(self):
+        return self.magnitude_stream
+
+    def set_magnitude_stream(self, magnitude_stream):
+        self.magnitude_stream = magnitude_stream
 
     def get_file_name(self):
         return self.file_name
 
     def set_file_name(self, file_name):
         self.file_name = file_name
-        self.blocks_file_sink_0.open(self.path + "raw_complex_dat/"  + self.file_name + "_raw_complex.dat")
 
     def get_bin_number(self):
         return self.bin_number

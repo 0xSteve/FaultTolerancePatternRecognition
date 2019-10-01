@@ -1,5 +1,6 @@
 %This script setups the normalized dataset for only the 26 long vectors.
 %this will standardize the vector length, and normalize
+%use this after converting the binaries to csv.
 % frequency 1200Hz
 % fft_size 3675
 % number of samples 126000
@@ -18,6 +19,7 @@ f = 1200; %frequency of interest.
 loc = 1;
 trans = 1;
 max_len = 31; %I'm being lazy here.
+%ToDo: add in some kind of reporting in the command window.
 while(loc < 4)
     res = [];
     

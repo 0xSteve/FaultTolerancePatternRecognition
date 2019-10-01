@@ -3,6 +3,8 @@ import csv
 import numpy as np
 from helper import *
 
+#FINAL VERSION. well, unless i write one that loops. xD
+
 li = [];
 file_name = '../matlab_timeseries_analysis/results/short_raw_sendloc1.csv'
 with open(file_name,'r') as csvfile:
@@ -19,7 +21,7 @@ X = np.array(li).astype(np.float)
 trans = 1
 start = 0
 end = 31 #because 31 datapts
-gran = 10
+gran = 1000
 with open('../matlab_timeseries_analysis/results/solution_loc1.csv', 'w') as csvfile:
     muh_writer = csv.writer(csvfile)
     while(trans < 11):

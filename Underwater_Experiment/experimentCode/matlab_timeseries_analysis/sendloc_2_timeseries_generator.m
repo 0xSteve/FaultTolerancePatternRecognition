@@ -149,3 +149,57 @@ axis([min(time_avg) max(time_avg) min(ts5) max(ts5)])
 xlabel('Time (s)')
 ylabel('Amplitude')
 title('Filtered Transmission Event 5')
+%get them as individuals
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% xmission 1
+figure;
+hold on;
+plot(time(t_1:t_2), y1(t_1:t_2),'k');
+stem(time(t_1:t_2), y1(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y1(t_1:t_2)) max(y1(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 1')
+% xmission 2
+figure;
+hold on;
+plot(time(t_1:t_2), y2(t_1:t_2),'k');
+stem(time(t_1:t_2), y2(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y2(t_1:t_2)) max(y2(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 2')
+% xmission 3
+figure;
+hold on;
+plot(time(t_1:t_2), y3(t_1:t_2),'k');
+stem(time(t_1:t_2), y3(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y3(t_1:t_2)) max(y3(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 3')
+% xmission 4
+figure;
+hold on;
+plot(time(t_1:t_2), y4(t_1:t_2),'k');
+stem(time(t_1:t_2), y4(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y4(t_1:t_2)) max(y4(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 4')
+% xmission 5
+figure;
+hold on;
+plot(time(t_1:t_2), y5(t_1:t_2),'k');
+stem(time(t_1:t_2), y5(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y5(t_1:t_2)) max(y5(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 5')

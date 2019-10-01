@@ -1,5 +1,6 @@
 #!/bin/bash
-#The usage of this is ./automatic <num locations> <num transmissions> 
+#The usage of this is ./automatic <num locations> <num transmissions>
+#example ./automaticpycomplex.sh 3 10 raw_complex
 #<output file>
 SEND_LOC=$1
 TRANS_NUM=$2

@@ -28,7 +28,7 @@ for i=1:(len_y-1)
     time = [time i/Fs];
 end
 %For a diagram we can 
-t_1 = floor(1.500 * Fs);
+t_1 = floor(1.501 * Fs);
 t_2 = ceil(1.502 * Fs);
 
 %plot the time
@@ -41,7 +41,7 @@ stem(time(t_1:t_2), y1(t_1:t_2),'k', 'fill');
 hold off;
 axis([time(t_1) time(t_2) min(y1(t_1:t_2)) max(y1(t_1:t_2))])
 xlabel('Time (s)')
-ylabel('Amplitude')
+ylabel('Signal Level')
 title('Transmission Event 1')
 % xmission 2
 subplot(5,1,2);
@@ -51,7 +51,7 @@ stem(time(t_1:t_2), y2(t_1:t_2),'k', 'fill');
 hold off;
 axis([time(t_1) time(t_2) min(y2(t_1:t_2)) max(y2(t_1:t_2))])
 xlabel('Time (s)')
-ylabel('Amplitude')
+ylabel('Signal Level')
 title('Transmission Event 2')
 % xmission 3
 subplot(5,1,3);
@@ -61,7 +61,7 @@ stem(time(t_1:t_2), y3(t_1:t_2),'k', 'fill');
 hold off;
 axis([time(t_1) time(t_2) min(y3(t_1:t_2)) max(y3(t_1:t_2))])
 xlabel('Time (s)')
-ylabel('Amplitude')
+ylabel('Signal Level')
 title('Transmission Event 3')
 % xmission 4
 subplot(5,1,4);
@@ -71,7 +71,7 @@ stem(time(t_1:t_2), y4(t_1:t_2),'k', 'fill');
 hold off;
 axis([time(t_1) time(t_2) min(y4(t_1:t_2)) max(y4(t_1:t_2))])
 xlabel('Time (s)')
-ylabel('Amplitude')
+ylabel('Signal Level')
 title('Transmission Event 4')
 % xmission 5
 subplot(5,1,5);
@@ -81,5 +81,59 @@ stem(time(t_1:t_2), y5(t_1:t_2),'k', 'fill');
 hold off;
 axis([time(t_1) time(t_2) min(y5(t_1:t_2)) max(y5(t_1:t_2))])
 xlabel('Time (s)')
-ylabel('Amplitude')
+ylabel('Signal Level')
 title('Transmission Event 5')
+%get them as individuals
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% xmission 1
+figure;
+hold on;
+plot(time(t_1:t_2), y1(t_1:t_2),'k');
+stem(time(t_1:t_2), y1(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y1(t_1:t_2)) max(y1(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 1')
+% xmission 2
+figure;
+hold on;
+plot(time(t_1:t_2), y2(t_1:t_2),'k');
+stem(time(t_1:t_2), y2(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y2(t_1:t_2)) max(y2(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 2')
+% xmission 3
+figure;
+hold on;
+plot(time(t_1:t_2), y3(t_1:t_2),'k');
+stem(time(t_1:t_2), y3(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y3(t_1:t_2)) max(y3(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 3')
+% xmission 4
+figure;
+hold on;
+plot(time(t_1:t_2), y4(t_1:t_2),'k');
+stem(time(t_1:t_2), y4(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y4(t_1:t_2)) max(y4(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 4')
+% xmission 5
+figure;
+hold on;
+plot(time(t_1:t_2), y5(t_1:t_2),'k');
+stem(time(t_1:t_2), y5(t_1:t_2),'k', 'fill');
+hold off;
+axis([time(t_1) time(t_2) min(y5(t_1:t_2)) max(y5(t_1:t_2))])
+xlabel('Time (s)')
+ylabel('Level')
+%title('Transmission Event 5')

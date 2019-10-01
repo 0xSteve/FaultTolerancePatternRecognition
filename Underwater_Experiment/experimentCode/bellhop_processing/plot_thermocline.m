@@ -17,8 +17,8 @@ function [x, y] = plot_thermocline(array, name, directory, title_name)
     C = [];
     B = 0;
     last = -1;
-    row = 1
-    last_row = 1
+    row = 1;
+    last_row = 1;
     for depth = 0:(depths - 1)
         row = last_row;
         for col = 1:5
@@ -39,17 +39,22 @@ function [x, y] = plot_thermocline(array, name, directory, title_name)
         last_row = row;
     end
     figure;
-    p = plot(C, 1:1:(count), 'b-')
+    hold on
+    p = plot(C, 1:1:(count), 'k-');
     p.LineWidth = 2;
-    p.Marker = '*';
+    scatter(C, 1:1:(count),'k','filled');
+    aa = gca;
+    set(aa, 'XAxisLocation', 'top');
+    set(aa, 'YDir', 'reverse');
     %Use this only for the event of errors.
     %plot(C(11:15), 1:1:5)
-    title(title_name)
-    xlabel('Temperature ({\circ}C)');
-    ylabel('Depth (m)');
-    axis([min(C) max(C) 1 count])
+    title(title_name, 'FontName', 'Times');
+    xlabel(['Temperature (' char(176) 'C)'], 'FontName', 'Times New Roman');
+    ylabel('Depth (m)', 'FontName', 'Times New Roman');
+    axis([0 max(C) 1 count]);
     %Use this only for errors.
     %axis([min(C(11:15)) max(C(11:15)) 1 5])
     x = 1:1:(count);
     y = C;
+    hold off;
 end

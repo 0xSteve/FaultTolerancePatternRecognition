@@ -1,6 +1,8 @@
 '''This is a helper file for just parzen window computations.'''
 
 import numpy as np
+#delete this after min/max troubleshooting is over
+import time as t
 
 def parzen_mean(X,Px):
     n = len(Px) #len(Px) == len(X)
@@ -33,7 +35,7 @@ def kdens(x,X, sigma):
     sum = 0.0
     for i in range(n):
         sum += krnl((x-X[i])/h)
-    return sum / (n*h)
+    return sum / (n * h)
 
 def gkdens(x,X, mu, sigma):
     #gaussian kernel densities
@@ -49,20 +51,34 @@ def gkdens(x,X, mu, sigma):
         sum += gaussian_krnl(((x-X[i]-mu)/h), sigma)
     return sum / (n*h)
 
-def parzen_window(X, n=100):
-    min = np.min(X) - 1
-    max = np.max(X) + 1
+def parzen_window(X, min, max, n=1000, sigma=1):
+    #A wee bit of trouble shooting here...
+    #min = np.min(X) - 1
+    #max = np.max(X) + 1
+    #print('The minimum is: ' + str(min))
+    #print('The maximum is: ' + str(max))
+    #t.sleep(10)
+    #Okay, so after trouble shooting, it looks like there is a little bit of a
+    #problem with the selection of the minimum and maximum. What ought to be
+    #done, is select the overall minimum and maximum of the parameter as
+    #present in the csv file and use that to define the interval for the Parzen
+    #interpolation.
+
+    #here we go just a tiny bit out of range to smooth the edges. I can make
+    #this even better, but not right now.
+    min -= 1
+    max += 1
     x = np.linspace(min,max,n)
     Px = np.zeros(n)
     mu = np.mean(X)
-    sigma = np.std(X)
-    if(sigma == 0):
-        sigma = 1
+    #sigma = np.std(X)
+    #if(sigma == 0):
+    #    sigma = 1
     #print('mu = ' + str(mu))
     #print('sigma = ' + str(sigma))
     for i in range(n):
         Px[i] = kdens(x[i], X, sigma)
     mean = parzen_mean(x, Px) + mu
-    variance = parzen_variance() + sigma
+    variance = parzen_variance() + np.std(X)
     return Px, x, mean, variance
 

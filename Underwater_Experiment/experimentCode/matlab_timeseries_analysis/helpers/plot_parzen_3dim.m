@@ -2,7 +2,7 @@ function plot_parzen_3dim(X, muh_datum)
     %Given a Mx3 set of send location data columns, plot the Parzen pdf.
     
     %close existing figures so it's cleaned up.
-    close all;
+    %close all;
 %     if (~exist('muh_title', 'var'))
 %         muh_title = 'no title PMF';
 %     end

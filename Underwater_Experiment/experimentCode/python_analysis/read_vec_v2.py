@@ -4,7 +4,7 @@ import numpy as np
 from parzen import *
 
 li = [];
-file_name = '../matlab_timeseries_analysis/results/short_raw_sendloc3.csv'
+file_name = '../matlab_timeseries_analysis/results/short_raw_sendloc1.csv'
 with open(file_name,'r') as csvfile:
     muh_file = csv.reader(csvfile)
     for row in muh_file:
@@ -15,8 +15,9 @@ Y = Y[:,1:len(Y)]
 trans = 1
 start = 0
 end = 31 #because 31 datapts
-gran = 100
-with open('../matlab_timeseries_analysis/results/solution_loc3.csv', 'w') as csvfile:
+gran = 1000
+
+with open('../matlab_timeseries_analysis/results/solution_loc1.csv', 'w') as csvfile:
     muh_writer = csv.writer(csvfile)
     while(trans < 11):
         X = []
@@ -26,7 +27,7 @@ with open('../matlab_timeseries_analysis/results/solution_loc3.csv', 'w') as csv
         X = np.transpose(X)
         print('\nTest data:')
         print(X)
-        fPx, fx, fmean, fvar = parzen_window(X[0,:],n=gran)
+        fPx, fx, fmean, fvar = parzen_window(X[0,:], 1140, 1260)
         print('\nEstimations:')
         print('Distribution:')
         print(fPx)
@@ -40,8 +41,8 @@ with open('../matlab_timeseries_analysis/results/solution_loc3.csv', 'w') as csv
         print('transmission ' + str(trans))
         print('\n==================================================\n')
 
-        mPx, mx, mmean, mvar = parzen_window(X[1,:],n=gran)
-        dcbf, dcbx, dcbmean, dcbvar = parzen_window(X[2,:],n=gran)
+        mPx, mx, mmean, mvar = parzen_window(X[1,:], 0, 1600)
+        dcbf, dcbx, dcbmean, dcbvar = parzen_window(X[2,:],0, 1)
         for row in range(gran):
             muh_writer.writerow([trans, 
                 fPx[row], fx[row], fmean, fvar,
